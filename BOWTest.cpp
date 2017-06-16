@@ -28,11 +28,12 @@ using namespace cv;
 using namespace std;
 
 int main (int argc, char * const argv[]) {
-    string dir = "/Users/elisimmonds/Code/IndependentStudy/LarvaeClassification/Images/OriginalRes/train/", filepath; //Directory for training images
+    string dir = "/Users/student/Downloads/OriginalRes/train", filepath; //Directory for training images
     DIR *dp;
     struct dirent *dirp;
     struct stat filestat;
-
+    Size size (300, 300);
+    Mat outImg;
     dp = opendir( dir.c_str() );
 
     // Create the object for the vocabulary
@@ -69,18 +70,20 @@ int main (int argc, char * const argv[]) {
         if (dirp->d_name[0] == '.')                  continue; //hidden files! 
 
         Mat img = imread(filepath, 1);
-
+	
+	resize(img, outImg, size, 0, 0, INTER_LINEAR);
+	// outImg.reshape(1, 1)
         // vector<KeyPoint> keypoints1; //Using multiple feature detectors
         // vector<KeyPoint> keypoints2; 
 
-        detector.detect(img, keypoints);
+        detector.detect(outImg, keypoints);
         // detector1.detect(img, keypoints1);
         // detector2.detect(img, keypoints2);
 
         // keypoints.insert(keypoints.end(), keypoints1.begin(), keypoints1.end()); //Merging multiple feature detectors
         // keypoints.insert(keypoints.end(), keypoints2.begin(), keypoints2.end());
 
-        extractor->compute(img, keypoints, descriptors);
+        extractor->compute(outImg, keypoints, descriptors);
         training_descriptors.push_back(descriptors);
     }
     cout << endl;
@@ -120,10 +123,12 @@ int main (int argc, char * const argv[]) {
         
         Mat img = imread(filepath);
 
+	resize(img, outImg, size, 0, 0, INTER_LINEAR);
+	//outImg.reshape(1. 1);
         // vector<KeyPoint> keypoints1; //Using multiple feature detectors
         // vector<KeyPoint> keypoints2; 
 
-        detector.detect(img, keypoints);
+        detector.detect(outImg, keypoints);
         // detector1.detect(img, keypoints1);
         // detector2.detect(img, keypoints2);
 
@@ -131,7 +136,7 @@ int main (int argc, char * const argv[]) {
         // keypoints.insert(keypoints.end(), keypoints2.begin(), keypoints2.end());
 
 
-        dextract.compute(img, keypoints, histogram);
+        dextract.compute(outImg, keypoints, histogram);
 
         count++;
         cout << "count: " << count << endl;
@@ -201,7 +206,7 @@ int main (int argc, char * const argv[]) {
     cout << "------- test -------------- \n";
 
 
-    dir = "/Users/elisimmonds/Code/IndependentStudy/LarvaeClassification/Images/OriginalRes/test/"; //Sets directory to test images
+    dir = "/Users/student/Downloads/OriginalRes/test"; //Sets directory to test images
 
     dp = opendir( dir.c_str() ); 
 
@@ -214,6 +219,7 @@ int main (int argc, char * const argv[]) {
     {
         vector<KeyPoint> keypoints; 
         Mat histogram;
+	//resize(histogram, histogram, size, 0 , 0, INTER_LINEAR);
 
         filepath = dir + "/" + dirp->d_name;
         if (stat( filepath.c_str(), &filestat )) continue;
@@ -221,18 +227,23 @@ int main (int argc, char * const argv[]) {
         if (dirp->d_name[0] == '.')                  continue; //hidden file! 
 
         Mat img = imread(filepath);
+	
+	resize(img, outImg, size, 0, 0, INTER_LINEAR);
 
+	//	outImg.convertTo(outImg, CV_32FC1);
+	outImg = outImg.reshape(1, 1);
+	outImg = outImg.t();
         // vector<KeyPoint> keypoints1; 
         // vector<KeyPoint> keypoints2; //Multiple detectors
 
-        detector.detect(img, keypoints);
+        detector.detect(outImg, keypoints);
         // detector1.detect(img, keypoints1);
         // detector2.detect(img, keypoints2);
 
         // keypoints.insert(keypoints.end(), keypoints1.begin(), keypoints1.end());
         // keypoints.insert(keypoints.end(), keypoints2.begin(), keypoints2.end());
 
-        dextract.compute(img, keypoints, histogram);
+        dextract.compute(outImg, keypoints, histogram);
 
         CvMat cvHistogram = histogram;
         float predicted = knn.find_nearest(&cvHistogram, K, 0, 0, nearests, 0);

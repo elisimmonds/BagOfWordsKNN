@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/elisimmonds/Code/IndependentStudy/LarvaeClassification/CPPFiles/BOWTest_copy/BOWTest.cpp" "/Users/elisimmonds/Code/IndependentStudy/LarvaeClassification/CPPFiles/BOWTest_copy/CMakeFiles/BOWTest.dir/BOWTest.cpp.o"
+  "/Users/student/Desktop/BagOfWordsKNN/BOWTest.cpp" "/Users/student/Desktop/BagOfWordsKNN/CMakeFiles/BOWTest.dir/BOWTest.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

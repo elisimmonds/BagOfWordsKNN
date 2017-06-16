@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/elisimmonds/Code/IndependentStudy/LarvaeClassification/CPPFiles/BOWTest_copy/BOWTest.cpp
+/Users/student/Desktop/BagOfWordsKNN/BOWTest.cpp
 opencv2/opencv_modules.hpp
 -
 stdio.h
@@ -136,8 +136,6 @@ string.h
 string.h
 -
 limits.h
--
-stddef.h
 -
 ext/atomicity.h
 -
